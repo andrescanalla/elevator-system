@@ -3,10 +3,11 @@ import React, { MouseEvent} from "react";
 export default class Button extends React.Component<IButtonProps, IButtonState> {
     constructor(props: IButtonProps) {
         super(props);
-        this.state = { illuminate: false };
+        this.state = { disabled: false };
     }
     handleClick = (event: MouseEvent) => {
-        console.log('type:',this.props.type, '-elevator:', this.props.elevator, ' - nFloor:', this.props.nFloor, ' - direction:', this.props.direction, ' - illuminate:', this.state.illuminate);
+        this.props.handleRequestQueue(this.props.nFloor);
+        console.log('type:',this.props.type, '-elevatorId:', this.props.elevatorId, ' - nFloor:', this.props.nFloor, ' - direction:', this.props.direction, ' - disabled:', this.state.disabled);
     }
     render() {
         return (
@@ -17,13 +18,17 @@ export default class Button extends React.Component<IButtonProps, IButtonState> 
     }
 }
 
-interface IButtonProps {
+export interface IButtonProps {
     nFloor: number,
-    elevator: string,
-    direction: number,
-    type: string
+    elevatorId: number,
+    direction?: number,
+    type: string,
+    disableRestrictedFloor?:boolean
+    handleRequestQueue(nFloor:number): void 
 }
 
 interface IButtonState {
-    illuminate: boolean
+    disabled: boolean
 }
+
+

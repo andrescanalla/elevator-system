@@ -1,40 +1,55 @@
 import React from "react";
+import setting from "../setting";
+
+const {
+    times: { openCloseDoors, waiting }
+} = setting;
+
 
 export default class Elevator extends React.Component<IElevatorProps, IElevatorState> {
-    constructor(props:IElevatorProps){
+    constructor(props: IElevatorProps) {
         super(props);
         this.state = {
-            direction: 0,
-            doorState: 'open',
-            type: 'public',
-            currentFloor: 0,
-            requestQueue: [],
-            nextFloor: false
+            
+            doorOpen: true,
+            
         }
+        
+        
     }
-    
+
+    componentDidMount(){
+           /* 
+           setTimeout(() => {
+            // open doors...
+            this.setState({doorOpen: true});
+          }, openCloseDoors);
+          */     
+          
+    }    
+
+        
+     
+
     render(){
         return(
-            <div></div>
+            <div className={ this.state.doorOpen ? 'elevator-open' : 'elevator'} style={{ height: 34, width:30 }}></div>
         );
     }
+        
 }
 
 interface IElevatorProps {
     id: number,
-    type: string,        
-}        
-
-interface IElevatorState {
-    direction: number,  //0 stand | 1 up | 2 down | 3 maintenance
-    doorState: string, // opened | closed   
-    type: string,
-    currentFloor: number,
-    requestQueue: FloorCalledFrom[],
-    nextFloor: false | FloorCalledFrom
+    type: string,   
+    handleElevators(id:number, floor:number): void    
 }
 
-type FloorCalledFrom = {
-    floor: number;
-    dir: number;
-  };
+interface IElevatorState {
+   
+    doorOpen: boolean, 
+    
+}
+
+
+
