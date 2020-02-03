@@ -9,7 +9,7 @@ export default class ButtonPanel extends React.Component<IButtonPanelProps> {
     }
     
     
-    createButtons(nFloors:number, elevatorId:number, type:string){
+    private createButtons(nFloors:number, elevatorId:number, type:string){
         let buttons = [];
         for (let i = nFloors; i >= this.minFloor ; i--) {
            
@@ -71,7 +71,7 @@ export class Button extends React.Component<IButtonProps> {
         super(props);
         this.state = { disabled: false };
     }
-    handleClick = (event: MouseEvent) => {
+    public handleClick = (event: MouseEvent) => {
         this.props.handleRequestQueue(this.props.nFloor ,this.props.direction);        
     }
     render() {

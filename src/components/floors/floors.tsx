@@ -4,7 +4,7 @@ import UiElevator from '../uiElevator/uiElevator'
 class Floors extends React.Component<IFloorsProps, IFloorsState> {
     
     
-    handleElevators = (id: number, floor: number): void => {
+    public handleElevators = (id: number, floor: number): void => {
         let data = Object.assign({},this.state.elevatorsFloor) ;
         data[id] = floor;
         console.log('Floor', data);
@@ -38,7 +38,7 @@ class Floors extends React.Component<IFloorsProps, IFloorsState> {
                         <div className="building" style={styles.colCol}>
                             <div className="floors">
                                 <div className="floor" style={styles.floor}>
-                                    {elevatorsFloor[0] === i ? <UiElevator  handleElevators={this.handleElevators} id={0} type={'public'} /> : <div></div>}
+                                    {elevatorsFloor[0] === i ? <UiElevator  handleElevators={this.handleElevators} id={0}  /> : <div></div>}
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@ class Floors extends React.Component<IFloorsProps, IFloorsState> {
                         <div className="building" style={styles.colCol}>
                             <div className="floors">
                                 <div className="floor" style={styles.floor}>
-                                    {elevatorsFloor[1] === i ? <UiElevator  handleElevators={this.handleElevators} id={1} type={'carga'} /> : <div></div>}
+                                    {elevatorsFloor[1] === i ? <UiElevator  handleElevators={this.handleElevators} id={1}  /> : <div></div>}
                                 </div>
                             </div>
                         </div>
@@ -84,8 +84,7 @@ interface IFloorsProps {
     floors: number,
     hasBasement: boolean,
     elevatorsFloor: FloorParam,    
-    handleElevators(id: number, floor: number): void,
-    handleRequestQueue(floor:number, direction:number):void,
+    handleElevators(id: number, floor: number): void,    
 }
 
 interface IFloorsState{

@@ -14,35 +14,25 @@ export default class ControllerElevator extends React.Component<IControllerEleva
             weight: 0,
             requestQueue: [],
             nextFloor: false,
-            isMoving: false,
-            requestQueueFromLobby:{floor:0,dir:0}
+            isMoving: false,            
 
         }
-        this.handleRequestQueuefromLobby()
+        
     }
     componentDidMount() {
         this.setState({
             elevatorFloor: this.props.elevatorFloor
         });
-        this.setState({
-            requestQueueFromLobby: this.props.handleRequestQueueFromLobby
-        });        
+              
 
     } 
-    
-    
-
-    handleRequestQueuefromLobby = () =>{
-        this.addRequestoQueue(this.props.handleRequestQueueFromLobby.floor); 
-        console.log('llamado del loby piso:',this.props.handleRequestQueueFromLobby.floor)
-    }
 
     public handleRequestQueue = (nFloor: number): void => {
-        console.log('prueba!!', nFloor, this.state.weight);
+        console.log('Floor:', nFloor, 'Weight:',this.state.weight);
         this.addRequestoQueue(nFloor);        
     }
 
-    handleChange = (e: any) => {
+    private handleChange = (e: any) => {
         console.log('target:', e.target.value);
         let weight = e.target.value;
 
@@ -57,12 +47,9 @@ export default class ControllerElevator extends React.Component<IControllerEleva
 
 
     }
+    
 
-    setDirection(): void {
-
-    }
-
-    addRequestoQueue(requestFloor: number): void {
+    private addRequestoQueue(requestFloor: number): void {
         if (this.state.requestQueue.length > 0) {
             this.setState({ nextFloor: this.state.requestQueue[0] },
                 () => {
@@ -88,7 +75,7 @@ export default class ControllerElevator extends React.Component<IControllerEleva
         };
     }
 
-    addRequestSortQueue(requestFloor: number): void {
+    private addRequestSortQueue(requestFloor: number): void {
 
         let finalQueue = [...this.state.requestQueue];
         let calledFrom = { floor: requestFloor, dir: this.state.direction }
@@ -131,7 +118,7 @@ export default class ControllerElevator extends React.Component<IControllerEleva
     }
 
     
-    runElevator(): void {
+    private runElevator(): void {
         if (this.state.weight < setting.building.weightLimit[this.props.id]) {
             if (this.state.requestQueue.length > 0) {
                 this.setState({ nextFloor: this.state.requestQueue[0] },
@@ -159,7 +146,7 @@ export default class ControllerElevator extends React.Component<IControllerEleva
 
 
 
-    moveToNextQueuePlace(direction: number, currentFloor: number): void {
+    private moveToNextQueuePlace(direction: number, currentFloor: number): void {
         if (this.state.requestQueue[0]) {
             let newRequestQueue = [...this.state.requestQueue];
             let a = 0;
@@ -188,14 +175,12 @@ export default class ControllerElevator extends React.Component<IControllerEleva
         }
     }
 
-    moveoToNextFloor(currentFloor: number): void {
+    private moveoToNextFloor(currentFloor: number): void {
         
         this.setState({ elevatorFloor: currentFloor });
         this.props.handlerElevator(this.props.id, currentFloor);
        
     }
-
-
 
     render() {
         let button: any;
@@ -251,7 +236,7 @@ interface IControllerElevatorProps {
     elevatorFloor: number
     handlerElevator(id: number, floor: number): void,
     disableRestrictedFloor: boolean
-    handleRequestQueueFromLobby:FloorCalledFrom,
+    
 
 }
 
@@ -261,8 +246,7 @@ interface IControllerElevatorState {
     requestQueue: FloorCalledFrom[],
     nextFloor: false | FloorCalledFrom,
     isMoving: boolean,
-    weight: number,
-    requestQueueFromLobby:FloorCalledFrom
+    weight: number   
 }
 
 type FloorCalledFrom = {
@@ -278,5 +262,4 @@ const styles = {
     card: {
         backgroundColor: '#f9f9f9'
     }
-
 };

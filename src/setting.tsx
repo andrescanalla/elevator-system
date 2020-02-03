@@ -4,7 +4,7 @@ const setting: ISetting = {
     building: {
       floorHeight: 34,
       elevatorHeight: 34,
-      elevatorWidth: 25,
+      elevatorWidth: 50,
       floorDivHeight: 8,
       weightLimit:{0 : 1 , 1: 3},
       hasBasement: true,

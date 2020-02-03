@@ -13,7 +13,7 @@ export default class UiElevator extends React.Component<IUiElevatorProps, IUiEle
            setTimeout(() => {
             // open doors...
             this.setState({doorOpen: true});
-          }, openCloseDoors);
+          }, 3000);
           */         
     }    
 
@@ -27,8 +27,8 @@ export default class UiElevator extends React.Component<IUiElevatorProps, IUiEle
 }
 
 interface IUiElevatorProps {
-    id: number,
-    type: string,   
+    
+    id: number,     
     handleElevators(id:number, floor:number): void    
 }
 

@@ -11,8 +11,7 @@ export default class Building extends React.Component<IBuildingProps, IBuildingS
         super(props);
         this.state = {
             elevatorsFloor: {0: 0, 1: 0 },
-            disableRestrictedFloor: true,
-            requestQueueFromLobby:{floor: 0, dir: 0}
+            disableRestrictedFloor: true,     
 
         };
     }
@@ -29,32 +28,25 @@ export default class Building extends React.Component<IBuildingProps, IBuildingS
         });
     }
 
-    handleDisableRestrictedFloor = (disableRestrictedFloor: boolean): void => {
+    public handleDisableRestrictedFloor = (disableRestrictedFloor: boolean): void => {
         this.setState({
             disableRestrictedFloor: disableRestrictedFloor
         });
-    }
-    handleRequestQueue = (nfloor:number, dir:number) =>{
-        console.log('Floor:', nfloor, 'Direction:', dir);
-        this.setState({
-            requestQueueFromLobby: {floor:nfloor, dir:dir}
-        }, ()=>{console.log('state:',this.state.requestQueueFromLobby)});
-    }
+    }    
 
     render() {
-        //let controllers = this.createControllers(setting.building.nElevators);
+        
         return (
             <div className="row">
                 <div className="col">
                     <div className="row">
                         <div className="col" style={styles.col}>
-                            <ControllerElevator handleRequestQueueFromLobby={this.state.requestQueueFromLobby} disableRestrictedFloor={this.state.disableRestrictedFloor} id={0} elevatorFloor={this.state.elevatorsFloor[0]} handlerElevator={this.handleElevators} >
+                            <ControllerElevator  disableRestrictedFloor={this.state.disableRestrictedFloor} id={0} elevatorFloor={this.state.elevatorsFloor[0]} handlerElevator={this.handleElevators} >
                                 <KeyCard handleDisableRestrictedFloor={this.handleDisableRestrictedFloor} />
                             </ControllerElevator>                         
                         </div>
                         <div className="col-3">
-                            <Floors
-                                handleRequestQueue={this.handleRequestQueue}
+                            <Floors                                
                                 handleElevators={this.handleElevators}
                                 floors={this.props.floors}
                                 hasBasement={this.props.hasBasement}
@@ -62,7 +54,7 @@ export default class Building extends React.Component<IBuildingProps, IBuildingS
                             />
                         </div>
                         <div className="col" style={styles.col}>
-                        <ControllerElevator handleRequestQueueFromLobby={this.state.requestQueueFromLobby} disableRestrictedFloor={false} id={1} elevatorFloor={this.state.elevatorsFloor[1]} handlerElevator={this.handleElevators} />
+                        <ControllerElevator  disableRestrictedFloor={false} id={1} elevatorFloor={this.state.elevatorsFloor[1]} handlerElevator={this.handleElevators} />
                         </div>
                     </div>
                 </div>
@@ -79,8 +71,7 @@ interface IBuildingProps {
 
 interface IBuildingState {
     elevatorsFloor: FloorParam,
-    disableRestrictedFloor: boolean,
-    requestQueueFromLobby:FloorCalledFrom
+    disableRestrictedFloor: boolean,    
 }
 type FloorParam = {
     [key: number]: number;
