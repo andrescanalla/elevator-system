@@ -1,6 +1,6 @@
 import React from "react";
-import setting from "../setting";
-import ButtonPanel from './buttonPanel'
+import setting from "../../setting";
+import ButtonPanel from '../buttonPanel/buttonPanel'
 const {
     times: { waiting }
 } = setting;

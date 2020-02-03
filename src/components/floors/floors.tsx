@@ -1,5 +1,5 @@
 import React from 'react';
-import UiElevator from './uiElevator'
+import UiElevator from '../uiElevator/uiElevator'
 
 class Floors extends React.Component<IFloorsProps, IFloorsState> {
     

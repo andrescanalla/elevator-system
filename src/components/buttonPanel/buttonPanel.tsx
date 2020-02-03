@@ -1,5 +1,5 @@
 import React ,  { MouseEvent }from "react";
-import settting from '../setting'
+import settting from '../../setting'
 
 export default class ButtonPanel extends React.Component<IButtonPanelProps> {
     minFloor:number;

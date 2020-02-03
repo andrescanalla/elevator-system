@@ -1,7 +1,7 @@
 import React from 'react';
-import Floors from '../components/floors';
-import KeyCard from '../components/keyCard';
-import ControllerElevator from '../components/controllerElevator';
+import Floors from '../../components/floors/floors';
+import KeyCard from '../../components/keyCard/keyCard';
+import ControllerElevator from '../../components/controllerElevator/controllerElevator';
 
 
 
@@ -21,7 +21,7 @@ export default class Building extends React.Component<IBuildingProps, IBuildingS
 
     }
 
-    private handleElevators = (id: number, floor: number): void => {
+    public handleElevators = (id: number, floor: number): void => {
         let data = this.state.elevatorsFloor;
         data[id] = floor;
         this.setState({

@@ -1,5 +1,5 @@
 import React from 'react';
-import setting from '../setting';
+import setting from '../../setting';
 
 
 export default class KeyCard extends React.Component<IKeyCardProps, IKeyCardState> {
@@ -48,7 +48,7 @@ export default class KeyCard extends React.Component<IKeyCardProps, IKeyCardStat
     render() {       
         return (
             <div>
-                <button  disabled={this.state.busy} type="button" className="btn btn-primary " data-toggle="modal" data-target="#keyCard" >
+                <button  data-testid="button" disabled={this.state.busy} type="button" className="btn btn-primary " data-toggle="modal" data-target="#keyCard" >
                     key Card
                 </button>
                 <div className="modal fade" id="keyCard" data-backdrop="static" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">

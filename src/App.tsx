@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import Building from './components/building'
+import Building from './components/building/building'
 import setting from './setting'
 
 const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
+        <p data-testid="p">
           KindaLab: Elevator System
         </p>
       </header>
