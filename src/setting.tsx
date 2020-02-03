@@ -40,7 +40,7 @@ interface ISetting {
 
 }
 type FloorParam = {
-  [key: number]: number; //elevator and floor?    
+  [key: number]: number; 
 };
   
   export default setting;

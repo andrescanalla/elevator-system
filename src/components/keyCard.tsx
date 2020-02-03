@@ -21,19 +21,18 @@ export default class KeyCard extends React.Component<IKeyCardProps, IKeyCardStat
       
       mySubmitHandler = (event:any) => {       
         console.log('submit');  
-        this.setState({busy:true});
+        this.setState({busy:true}, ()=>{});
+        this.props.handleDisableRestrictedFloor(!this.state.accessToRestrictedFloor);
         setTimeout(() => {            
             this.setState({busy:false});
             this.setState({accessToRestrictedFloor:false});
+            this.props.handleDisableRestrictedFloor(true);
           }, 4000);          
-      
-        
         this.keyCardId.current?.reset();          
       }
 
 
-      myChangeHandler = (event:any) => {        
-        //this.setState({username: event.target.value});
+      myChangeHandler = (event:any) => {               
         console.log('onchange', event.target.value);
         let accessToRestrictedFloor = false
         setting.building.accessId.forEach(element => {
@@ -85,7 +84,7 @@ export default class KeyCard extends React.Component<IKeyCardProps, IKeyCardStat
     }
 }
 interface IKeyCardProps {
-    handleDisableRestrictedFloor():void,
+    handleDisableRestrictedFloor(disableRestrictedFloor:boolean):void,
 }
 interface IKeyCardState {
     KeycardLog:log[],

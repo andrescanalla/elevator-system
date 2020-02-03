@@ -1,6 +1,5 @@
 import React from 'react';
-import Button from './button'
-import Elevator from './elevator'
+import UiElevator from './uiElevator'
 
 class Floors extends React.Component<IFloorsProps, IFloorsState> {
     
@@ -12,28 +11,7 @@ class Floors extends React.Component<IFloorsProps, IFloorsState> {
         this.setState({
             elevatorsFloor: data
         }); 
-    }    
-
-    createButton(handleRequestQueue:any, nFloor: number, elevatorId: number, direction: number, type: string) {
-        return <Button
-            nFloor={nFloor}
-            elevatorId={elevatorId}
-            direction={direction}
-            type={type}
-            handleRequestQueue={()=>{ }}
-        />
-    }
-
-    createButtons(i:number, id:number, lastFloor:number, floors:number){
-        return (i === lastFloor) ?
-        this.createButton(this.props.handleRequestQueue ,i, id, 1, 'lobby') :
-        (i === floors) ?
-            this.createButton( this.props.handleRequestQueue ,i, id, 2, 'lobby') :
-            <div className="list-group list-group-horizontal">
-                {this.createButton(this.props.handleRequestQueue,i, id, 1, 'lobby')}
-                {this.createButton(this.props.handleRequestQueue,i, id, 2, 'lobby')}
-            </div>
-    }
+    }      
     
     render() {
         let floors = this.props.floors;
@@ -47,54 +25,48 @@ class Floors extends React.Component<IFloorsProps, IFloorsState> {
         }
         for (let i = floors; i >= lastFloor; i--) {
             floor.push(
-                <div className="row" key={i} style={{ height: 42 }}>                    
-                    <div style={{ width: 30 }}>{i}</div>
-                    <div style={{ width: 60, paddingRight: 5, paddingLeft: 5 }}>                        
-                         {this.createButtons(i,0, lastFloor, floors)}                                         
-                    </div>
-                    <div style={{ backgroundColor: '#ddd', padding: 0 }}>
-                        <div className="building" style={{ width: 30 }}>
+                <div className="row" key={i} style={styles.row}>                    
+                    <div style={styles.colCol}>{i}</div>                    
+                    <div style={styles.colExt}>
+                        <div className="building" style={styles.colCol}>
                             <div className="floors">
-                                <div className="floor" style={{ marginTop: 34 }}></div>
+                                <div className="floor" style={styles.floor}></div>
                             </div>
                         </div>
                     </div>
-                    <div style={{ backgroundColor: 'black', padding: 0, width: 30 }}>
-                        <div className="building" style={{ width: 30 }}>
+                    <div style={styles.elevatorCol}>
+                        <div className="building" style={styles.colCol}>
                             <div className="floors">
-                                <div className="floor" style={{ marginTop: 34 }}>
-                                    {elevatorsFloor[0] === i ? <Elevator  handleElevators={this.handleElevators} id={0} type={'public'} /> : <div></div>}
+                                <div className="floor" style={styles.floor}>
+                                    {elevatorsFloor[0] === i ? <UiElevator  handleElevators={this.handleElevators} id={0} type={'public'} /> : <div></div>}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div style={{ backgroundColor: '#ddd', padding: 0 }}>
-                        <div className="building" style={{ width: 60 }}>
+                    <div style={styles.colExt}>
+                        <div className="building" style={styles.colDiv}>
                             <div className="floors">
-                                <div className="floor" style={{ marginTop: 34 }}></div>
+                                <div className="floor" style={styles.floor}></div>
                             </div>
                         </div>
                     </div>
-                    <div style={{ backgroundColor: 'black', padding: 0, width: 30 }}>
-                        <div className="building" style={{ width: 30 }}>
+                    <div style={styles.elevatorCol}>
+                        <div className="building" style={styles.colCol}>
                             <div className="floors">
-                                <div className="floor" style={{ marginTop: 34 }}>
-                                    {elevatorsFloor[1] === i ? <Elevator  handleElevators={this.handleElevators} id={1} type={'carga'} /> : <div></div>}
+                                <div className="floor" style={styles.floor}>
+                                    {elevatorsFloor[1] === i ? <UiElevator  handleElevators={this.handleElevators} id={1} type={'carga'} /> : <div></div>}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div style={{ backgroundColor: '#ddd', padding: 0 }}>
-                        <div className="building" style={{ width: 30 }}>
+                    <div style={styles.colExt}>
+                        <div className="building" style={styles.colCol}>
                             <div className="floors">
-                                <div className="floor" style={{ marginTop: 34 }}></div>
+                                <div className="floor" style={styles.floor}></div>
                             </div>
                         </div>
                     </div>
-                    <div style={{ width: 60, paddingRight: 5, paddingLeft: 5 }}>
-                        {this.createButtons(i,1,lastFloor,floors)}  
-                        
-                    </div>
+                    <div style={styles.colCol}>{i}</div>                      
                 </div>
             );
         }
@@ -113,7 +85,7 @@ interface IFloorsProps {
     hasBasement: boolean,
     elevatorsFloor: FloorParam,    
     handleElevators(id: number, floor: number): void,
-    handleRequestQueue():void,
+    handleRequestQueue(floor:number, direction:number):void,
 }
 
 interface IFloorsState{
@@ -124,3 +96,32 @@ type FloorParam = {
     [key: number]: number;
 };
 
+const styles = {
+    row:{
+        height: 42              
+    },
+    colCol:{
+        width: 30
+    },
+    colButton:{
+        width: 60, 
+        paddingRight: 5, 
+        paddingLeft: 5
+    },
+    colDiv:{
+        width: 60,         
+    },
+    floor:{
+        marginTop: 34
+    },
+    elevatorCol:{
+        backgroundColor: 'black', 
+        padding: 0, 
+        width: 30
+    },
+    colExt:{
+        backgroundColor: '#ddd', 
+        padding: 0 
+    }
+     
+  };

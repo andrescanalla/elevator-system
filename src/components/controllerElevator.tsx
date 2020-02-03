@@ -1,33 +1,45 @@
 import React from "react";
 import setting from "../setting";
-import ElevatorButtons from './elevatorButtons'
+import ButtonPanel from './buttonPanel'
 const {
     times: { waiting }
 } = setting;
 
-export default class Controller extends React.Component<IControllerProps, IControllerState> {
-    constructor(props: IControllerProps) {
+export default class ControllerElevator extends React.Component<IControllerElevatorProps, IControllerElevatorState> {
+    constructor(props: IControllerElevatorProps) {
         super(props);
         this.state = {
             elevatorFloor: 0,
             direction: 0,
-            weight: 4,
+            weight: 0,
             requestQueue: [],
             nextFloor: false,
             isMoving: false,
-        }
+            requestQueueFromLobby:{floor:0,dir:0}
 
+        }
+        this.handleRequestQueuefromLobby()
     }
     componentDidMount() {
         this.setState({
             elevatorFloor: this.props.elevatorFloor
         });
+        this.setState({
+            requestQueueFromLobby: this.props.handleRequestQueueFromLobby
+        });        
 
+    } 
+    
+    
+
+    handleRequestQueuefromLobby = () =>{
+        this.addRequestoQueue(this.props.handleRequestQueueFromLobby.floor); 
+        console.log('llamado del loby piso:',this.props.handleRequestQueueFromLobby.floor)
     }
 
     public handleRequestQueue = (nFloor: number): void => {
         console.log('prueba!!', nFloor, this.state.weight);
-        this.addRequestoQueue(nFloor);
+        this.addRequestoQueue(nFloor);        
     }
 
     handleChange = (e: any) => {
@@ -114,12 +126,11 @@ export default class Controller extends React.Component<IControllerProps, IContr
 
                 finalQueue = [...nextFloorsGoingDown, ...nextFloorOppositeDir, ...lastestFloorsGoingDown];
             }
-        }
-        console.log('la cola!!!!!!!!:', finalQueue);
+        }        
         this.setState({ requestQueue: finalQueue });
     }
 
-
+    
     runElevator(): void {
         if (this.state.weight < setting.building.weightLimit[this.props.id]) {
             if (this.state.requestQueue.length > 0) {
@@ -146,7 +157,7 @@ export default class Controller extends React.Component<IControllerProps, IContr
         }
     }
 
-   
+
 
     moveToNextQueuePlace(direction: number, currentFloor: number): void {
         if (this.state.requestQueue[0]) {
@@ -159,8 +170,10 @@ export default class Controller extends React.Component<IControllerProps, IContr
             };
 
             while (currentFloor !== this.state.requestQueue[0].floor) {
+                
                 currentFloor = currentFloor + a;
                 this.moveoToNextFloor(currentFloor);
+               
             };
 
             newRequestQueue.shift();
@@ -168,8 +181,6 @@ export default class Controller extends React.Component<IControllerProps, IContr
                 () => {
                     if (this.state.requestQueue.length !== 0) {
                         this.setState({ isMoving: false }, () => {
-
-
                             this.runElevator();
                         });
                     }
@@ -178,8 +189,10 @@ export default class Controller extends React.Component<IControllerProps, IContr
     }
 
     moveoToNextFloor(currentFloor: number): void {
+        
         this.setState({ elevatorFloor: currentFloor });
         this.props.handlerElevator(this.props.id, currentFloor);
+       
     }
 
 
@@ -198,14 +211,17 @@ export default class Controller extends React.Component<IControllerProps, IContr
             titleElevator = 'Freight'
         }
         return (
-            <div className="row" style={controllerStyle}>
-                <div className="col-8 " >
+            <div className="row" style={styles.row}>
+                <div className="col ">
+                    <ButtonPanel type={(this.props.id===0)?'elevator':'lobby'} disableRestrictedFloor={this.props.disableRestrictedFloor} idElevator={this.props.id} handleRequestQueue={this.handleRequestQueue} />
+                </div>
+                <div className="col-6 " >
                     <div className="card">
                         <div className="card-body">
                             <div className="card-title">
-                                {titleElevator} Elevator {this.props.id + 1}
+                                Controll Panel {titleElevator} Elevator {this.props.id + 1}
                             </div>
-                            <div className="card" style={{ backgroundColor: '#f9f9f9' }}>
+                            <div className="card" style={styles.card}>
                                 <div className="card-body">
                                     <div className="form-group">
                                         Floor <div className="card" >
@@ -214,7 +230,7 @@ export default class Controller extends React.Component<IControllerProps, IContr
                                         <label >Weight </label>
                                         <input type="number" min="0" className="form-control" value={this.state.weight} placeholder="tn..." onChange={this.handleChange} />
                                     </div>
-                                    <label >Queue</label>  
+                                    <label >Queue</label>
                                     {button}
                                     {this.props.children}
                                 </div>
@@ -223,28 +239,30 @@ export default class Controller extends React.Component<IControllerProps, IContr
                     </div>
                 </div>
                 <div className="col ">
-                    <ElevatorButtons disableRestrictedFloor={this.props.disableRestrictedFloor} idElevator={this.props.id} handleRequestQueue={this.handleRequestQueue} />
+                    <ButtonPanel type={(this.props.id===1)?'elevator':'lobby'} disableRestrictedFloor={this.props.disableRestrictedFloor} idElevator={this.props.id} handleRequestQueue={this.handleRequestQueue} />
                 </div>
             </div >
         )
     }
 }
 
-interface IControllerProps {
-    id: number,   
+interface IControllerElevatorProps {
+    id: number,
     elevatorFloor: number
     handlerElevator(id: number, floor: number): void,
-    disableRestrictedFloor:boolean     
+    disableRestrictedFloor: boolean
+    handleRequestQueueFromLobby:FloorCalledFrom,
 
 }
 
-interface IControllerState {
+interface IControllerElevatorState {
     elevatorFloor: number,
     direction: number,  //0 stand | 1 up | 2 down | 3 maintenance
     requestQueue: FloorCalledFrom[],
     nextFloor: false | FloorCalledFrom,
     isMoving: boolean,
-    weight: number
+    weight: number,
+    requestQueueFromLobby:FloorCalledFrom
 }
 
 type FloorCalledFrom = {
@@ -252,7 +270,13 @@ type FloorCalledFrom = {
     dir: number;
 };
 
-const controllerStyle = {
-    paddingLeft: 40,
-    marginTop: 50
+const styles = {
+    row: {
+        paddingLeft: 40,
+        marginTop: 50
+    },
+    card: {
+        backgroundColor: '#f9f9f9'
+    }
+
 };

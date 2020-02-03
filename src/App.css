@@ -156,12 +156,16 @@
     background-color: #0068ca;
     position: absolute;
     bottom: 8px;
+    height: 34px;
+    width: 30px
 }
 
 .building-area .building .elevator-open {
     background-color: hsl(133, 100%, 40%);
     position: absolute;
     bottom: 8px;
+    height: 34px;
+    width: 30px
 }
 
 .building-area .controls {
