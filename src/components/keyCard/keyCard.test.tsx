@@ -19,6 +19,11 @@ it('keyCArd label button', () => {
     const { getByTestId } = render(<KeyCard handleDisableRestrictedFloor={ ()=>{} }/>);  
     expect(getByTestId('button')).toBeEnabled();
   });
+
+  it('Enable button', () => {
+    const { getByTestId } = render(<KeyCard handleDisableRestrictedFloor={ ()=>{} }/>);  
+    expect(getByTestId('button')).toBeEnabled();
+  });
   
 
 

@@ -25,7 +25,7 @@ class Floors extends React.Component<IFloorsProps, IFloorsState> {
         }
         for (let i = floors; i >= lastFloor; i--) {
             floor.push(
-                <div className="row" key={i} style={styles.row}>                    
+                <div className="row justify-content-center" key={i} style={styles.row}>                    
                     <div style={styles.colCol}>{i}</div>                    
                     <div style={styles.colExt}>
                         <div className="building" style={styles.colCol}>

@@ -78,7 +78,7 @@ export default class ControllerElevator extends React.Component<IControllerEleva
     private addRequestSortQueue(requestFloor: number): void {
 
         let finalQueue = [...this.state.requestQueue];
-        let calledFrom = { floor: requestFloor, dir: this.state.direction }
+        let calledFrom = { floor: requestFloor, dir: this.state.elevatorFloor > requestFloor ? 2 : 1 }
         finalQueue.push(calledFrom);
         if (finalQueue.length > 1) {
             let nextFloorOppositeDir = finalQueue.filter((el) => {
@@ -242,7 +242,7 @@ interface IControllerElevatorProps {
 
 interface IControllerElevatorState {
     elevatorFloor: number,
-    direction: number,  //0 stand | 1 up | 2 down | 3 maintenance
+    direction: number,  //0 stand | 1 up | 2 down 
     requestQueue: FloorCalledFrom[],
     nextFloor: false | FloorCalledFrom,
     isMoving: boolean,
